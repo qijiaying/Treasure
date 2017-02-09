@@ -1,0 +1,249 @@
+20161229
+总结：
+1. AS和Git
+2. Butterknife
+    添加依赖：gradle版本2.2
+    一定要学会使用：我们的项目里面使用的是Butterknife
+    绑定视图、绑定资源、设置监听
+3. 主页面搭建:
+    主要的就是视频播放
+    主要是要学会分析流程，掌握思路
+任务：
+    git：一定要学会克隆和pull代码
+    主页面：完成主页面的视频播放
+    预习：用户模块的页面搭建
+          MVP
+
+20170103
+MVP：目的：达到视图和业务的分离
+解耦效果：每个功能模块之间相互独立
+维护性
+更加清晰
+
+Model：数据的存取：数据的仓库，网络请求、数据库存取、本地文件的存取，数据的操作
+数据得到之后，通过Presenter来进行数据的传递给视图
+
+View：视图：用户界面
+一般Activity、Fragment、View等
+View会通过Presenter来进行数据的请求(数据的真实获取是在model里面)，拿到数据之后，再传递给View进行展示等
+
+Presenter：交互中间人
+View和Model沟通的桥梁
+
+使用：
+Model：数据的存取
+View：视图
+Presenter：中间人
+View Interface：利用接口回调的方式实现数据获取(业务)过程中与视图的交互
+
+总结:
+用户模块：
+登录
+注册
+1. Toolbar的使用
+2. 自定义的对话框：DialogFragment
+3. MVP模式(重点！！！)
+任务：
+完成登录和注册：MVP
+预习：
+侧滑：DrawerLayout+NavigationView
+百度地图的展示
+
+20170104
+1. Home页面的搭建：
+侧滑：DrawerLayout+NavigationView
+
+2. 百度地图的key获取：官网上：申请秘钥：SHA1 + 包名
+
+    SHA1：debug.keystore签名文件来获取的
+
+    1. 直接使用自己电脑里面的debug.keystore：在其他电脑上运行key会出错
+        cmd
+        cd .android
+        keytool -list -v -keystore debug.keystore
+        输入口令：android
+        SHA1值
+
+    2. 自己在项目里面放置一个debug.keystore
+        debug.keystore文件放置在app下面
+        指定我们使用的是项目下面的debug.keystore
+        cmd
+        cd 项目的debug.keystore放置的路径(cd .....app下面)
+        keytool -list -v -keystore debug.keystore
+        输入口令：android
+        SHA1值
+
+    3. keytool命令不是内部或外部的命令：JDK的环境配置有没有问题
+        cd jdk安装的路径的bin下面
+        keytool -list -v -keystore (C:\Users\123\.adnroid\debug.keystore,如果你获取你项目下面的，要换成项目下面debug.keystore的路径)debug.keystore
+
+3. 集成的流程：(重点)
+1. 添加jar包：
+    目的：使用jar里面的API：使用百度地图的工具：类、方法等
+    1. 将jar包和so文件，放置在libs下面
+    2. build.gradle里面需要指定so文件的路径
+    sourceSets {
+            main {
+                jniLibs.srcDir 'libs'
+            }
+        }
+    可以调出来，集成jar没有问题
+    SDKInitializer.initialize(getApplicationContext());
+2. 清单文件里面添加权限、开发者key
+
+   开发者的key：作用：拿自己的东西在百度地图创建属于自己的应用
+
+3. 布局里面添加MapView的控件：只是验证我们集成的没有问题
+4. 创建一个TreasureApplication，里面初始化百度地图的SDK
+   SDKInitializer.initialize(getApplicationContext());
+   注意：要在清单文件里面注册<application>name属性设置上
+
+问题：
+1. 只出现网格，没有出现地图：
+    1. 排除网络问题
+    2. appKey有问题：230错误，
+2. 初始化SDK.. 的问题：MapView ，SDK....
+    Application有没有写错：继承自Application，清单文件有没有设置上
+3. No config chosen: opengl:
+    模拟器运行，真机测试
+4. Message信息：百度地图内部封装的警告信息问题
+
+任务
+侧滑：实现
+一定要把集成的流程搞清楚！！！
+地图集成完成：地图可以展示
+预习：
+百度地图的使用
+
+20170105
+1. 地图的展示和功能介绍
+2. 地图类型的切换
+3. 缩放的处理
+4. 指南针
+5. 定位：
+    1. 清单文件添加权限和服务
+    2. 定位流程
+    注意：
+        1. 真机去测试
+        2. 6.0 以上的系统：打开位置服务，允许项目的GPS和定位权限
+6. 添加覆盖物：
+    在哪里添加？
+    怎么添加？
+    添加完，点击怎么处理？
+    点击的视图是什么？
+
+总结：
+地图的使用
+1. 类型的切换：普通和卫星
+2. 地图状态的设置
+3. 指南针
+4. 定位：
+    1. 配置：清单文件添加服务和权限(如果之前没有导入定位jar包的，要添加)
+    2. 流程：官网
+    注意：真机测试、6.0系统的处理一下权限(目标版本改低、手动打开手机权限、代码里面处理运行时权限)
+5. 设置了地图状态的监听(地图状态发生变化的时候处理)
+6. 添加了覆盖物：Marker：位置、覆盖物的图标
+7. 覆盖物的点击监听：点击在地图上出现一个InfoWindow
+8. 设置InFoWindow及点击监听
+
+任务：
+上面的内容完成。
+预习：Okhttp,Retrofit,http知识点
+明天：
+网络请求！！！
+
+20170106
+问题反馈：
+1. 定位：null，定位到海洋
+    1. 定位服务：清单文件里面添加
+    2. jar包和so文件版本不一致
+    3. 6.0 系统的：目标版本改低、手动打开手机权限、代码里面处理运行时权限
+    4. 首次start定位失败，回调的方法里面需要重新请求
+
+20170110
+回顾：
+1. Retrofit的使用
+2. 项目里面添加了网络模块，完成了登录
+
+今天：
+1. 注册
+2. 保存登录注册的用户信息
+3. Main页面处理登录以后不再进行登录直接跳转到Home页面
+4. Home页面处理头像的展示
+    图片加载：
+    Fresco:<SimpleDraweeView>,圆角、缓存
+    Picasso:
+    Glide:依赖、使用Glide.with(this)
+                           .load(photo)
+                           .error(R.mipmap.user_icon)
+                           .placeholder(R.mipmap.user_icon)// 设置占位图
+                           .into(mIvIcon);
+下午：
+宝藏页面：
+宝藏数据获取
+视图的完善
+
+总结：
+1. 用户登录和注册的功能实现：
+2. Glide
+3. 登录和注册的用户信息的存储及处理登录及退出登录
+4. 宝藏数据的获取和展示
+    Retrofit + MVP
+    得到数据，添加覆盖物展示宝藏(宝藏的id存到了marker，方便点击显示宝藏信息)
+5. 宝藏数据的缓存：避免频繁的请求数据
+6. 自定义的View：展示宝藏的数据信息
+    重点：对外提供了一个方法：帮我们填充布局上的宝藏信息
+任务：
+实现今天的内容
+思考：视图的切换(普通、宝藏信息显示、埋藏宝藏的视图)？？
+明天：
+视图的完善
+宝藏的详情及埋藏宝藏
+
+20170111：
+1. 切换视图
+2. 地理编码的反地理编码
+3. 宝藏详情、埋藏宝藏
+
+总结：
+1. 宝藏页面：切换视图：普通、宝藏显示、埋藏视图
+2. 在埋藏视图下，宝藏标题录入的卡片：上方有一个展示地址TextView
+    百度地图里面：地理编码(反地理编码)
+3. 在宝藏显示视图：点击宝藏信息的卡片，跳转到详情页面
+   Toolbar、地图和宝藏的展示、宝藏信息卡片的展示
+   网络获取的宝藏的详细信息：Retrofit+MVP
+4. Toolbar上面的导航图标的功能实现
+    1. 点击事件
+    2. 弹出一个弹出菜单(PopupMenu)
+    3. 菜单项的点击事件：步行或骑行导航
+5. 百度地图的导航：
+    BaiduMapNavigation里面的导航的方法
+    参数：起点(定位的位置)和终点(宝藏的位置)的位置和地址
+任务：
+项目实施：完成
+明天：
+埋藏宝藏和宝藏列表
+
+20170112
+埋藏宝藏:实现
+
+    Retrofit+MVP模式
+    埋藏的地址、位置、描述等
+    注意：宝藏上传以后清除宝藏缓存
+        MapFragment里面setData方法里面首先清除百度地图上的覆盖物
+
+
+宝藏列表：
+1. Fragment的切换：在布局的Framelayout中只有一个TreasureListFragment的replace和remove
+2. 选项菜单：准备、创建、菜单项点击
+3. RecyclerView展示列表：自定义适配器，点击事件
+
+个人信息：
+自定义视图：IconSelectWindow
+构造方法中布局填充、接口回调处理两个按钮的事件
+
+任务：
+完成今天的内容：
+RecyclerView
+明天：
+头像的更新

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_200"
+    android:background="@mipmap/bg_world"
+    android:orientation="vertical">
+
+    <!--显示一个圆形的图片：带有描边-->
+    <!--app:border (boolean) -> default false：是否有边界-->
+    <!--app:border_color (color) -> default WHITE：边界的颜色-->
+    <!--app:border_width (dimension) -> default 2dp：边界的宽度-->
+    <!--app:selector (boolean) -> default false：选择器-->
+    <!--app:selector_color (color) -> default TRANSPARENT 颜色-->
+    <!--app:selector_stroke_color (color) -> default BLUE -->
+    <!--app:selector_stroke_width (dimension) -> default 2dp-->
+    <!--app:shadow (boolean) -> default false-->
+    <com.pkmmte.view.CircularImageView
+        android:id="@+id/iv_usericon"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_100"
+        android:src="@mipmap/user_icon"
+        android:layout_centerInParent="true"
+        app:border="true"
+        app:border_color="#16f5f5f5"
+        app:border_width="@dimen/dp_8"/>
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_usericon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/treasure_expert"
+        android:textColor="@color/text_color_white"
+        android:textSize="@dimen/sp_16"/>
+</RelativeLayout>
